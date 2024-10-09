@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="/styles.css"> <!-- Add a stylesheet if needed -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #000; /* Black background */
+            color: #fff; /* White text */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            width: 300px;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.2); /* Light shadow for the container */
+            background-color: #000; /* Black panel background */
+            text-align: center;
+        }
+        h1 {
+            color: #fff; /* White header text */
+            margin-bottom: 20px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+            text-align: left;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #fff; /* White label text */
+        }
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 8px;
+            border: none; /* Removed the border */
+            border-radius: 4px;
+            background-color: #333; /* Dark input background */
+            color: #fff; /* White input text */
+            box-shadow: 0 0 5px rgba(255, 255, 255, 0.5); /* White shadow */
+        }
+        button {
+            background-color: #f58220; /* Orange button */
+            border-color: #f58220;
+            padding: 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+        }
+        button:hover {
+            background-color: #f58220; /* Orange background on hover */
+            color: #000; /* Black text on hover */
+        }
+        .toggle-buttons {
+            margin-bottom: 20px;
+        }
+        .toggle-buttons button {
+            background-color: transparent; /* Transparent background */
+            color: #ffffff; /* Orange button text */
+            border: 1px solid black; /* Orange border */
+            margin: 0 5px;
+            cursor: pointer;
+        }
+        .toggle-buttons button.active {
+            background-color: #f58220; /* Orange background for active button */
+            color: #000000; /* Black text for active button */
+        }
+        /* Alert Styling */
+        .alert {
+            background: linear-gradient(45deg, #f58220, #ff9800);
+            color: #000000;
+            padding: 10px;
+            border-radius: 10px;
+            text-align: center;
+            font-weight: bold;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            margin-bottom: 10px;
+            transition: all 0.3s ease;
+        }
+        .exp{
+            text-align: center;
+            color: #ff9800;
+        }
+
+    </style>
+</head>
+<body>
+    <% if (prompt && prompt.length > 0) { %>
+        <div class="alert">
+            <%= prompt %>
+        </div>
+    <% } %>
+    <div>On Registration, Verification Link <p class="exp">Expires in 30 minutes</p></div>
+    <div class="container">
+        <div class="toggle-buttons">
+            <button id="adminBtn" class="active" onclick="switchForm('admin')">Admin Login</button>
+            <button id="userBtn" onclick="switchForm('user')">User Login</button>
+            <button id="registerBtn" onclick="switchForm('register')">Register</button> <!-- Added Register button -->
+        </div>
+        
+        <!-- Admin Login Form -->
+        <div id="adminForm" class="form">
+            <h1>Admin Login</h1>
+            <form action="/Admin" method="POST">
+                <div class="form-group">
+                    <input type="text" placeholder="Roll Number" id="adminRollno" name="rollno" required>
+                </div>
+                <div class="form-group">
+                    <input type="password" placeholder="Password" id="adminPassword" name="password" required>
+                </div>
+                <button type="submit">Login</button>
+            </form>
+        </div>
+
+        <!-- User Login Form -->
+        <div id="userForm" class="form" style="display:none;">
+            <h1>User Login</h1>
+            <form action="/user" method="POST">
+                <div class="form-group">
+                    <input type="text" placeholder="Roll Number" id="userRollno" name="rollno" required>
+                </div>
+                <div class="form-group">
+                    <input type="password" placeholder="Password" id="userPassword" name="password" required>
+                </div>
+                <button type="submit">Login</button>
+            </form>
+        </div>
+
+        <!-- Registration Form -->
+        <div id="registerForm" class="form" style="display:none;">
+            <h1>Register</h1>
+            <form action="/register" method="POST">
+                <div class="form-group">
+                    <input type="text" placeholder="Name" id="registerName" name="name" required> <!-- Added name field -->
+                </div>
+                <div class="form-group">
+                    <input type="text" placeholder="Roll Number" id="registerRollno" name="rollno" required>
+                </div>
+                <div class="form-group">
+                    <input type="password" placeholder="Password" id="registerPassword" name="password" required>
+                </div>
+                <button type="submit">Register</button>
+            </form>
+        </div>
+    </div>
+
+    <h3>Please give us Feedback at <p style="color: #ff9800;">NOTESHUB008@gmail.com</p></h3>
+    
+    <script>
+        function switchForm(role) {
+            const adminForm = document.getElementById('adminForm');
+            const userForm = document.getElementById('userForm');
+            const registerForm = document.getElementById('registerForm');
+            const adminBtn = document.getElementById('adminBtn');
+            const userBtn = document.getElementById('userBtn');
+            const registerBtn = document.getElementById('registerBtn');
+
+            if (role === 'admin') {
+                adminForm.style.display = 'block';
+                userForm.style.display = 'none';
+                registerForm.style.display = 'none';
+                adminBtn.classList.add('active');
+                userBtn.classList.remove('active');
+                registerBtn.classList.remove('active');
+            } else if (role === 'user') {
+                adminForm.style.display = 'none';
+                userForm.style.display = 'block';
+                registerForm.style.display = 'none';
+                adminBtn.classList.remove('active');
+                userBtn.classList.add('active');
+                registerBtn.classList.remove('active');
+            } else {
+                adminForm.style.display = 'none';
+                userForm.style.display = 'none';
+                registerForm.style.display = 'block';
+                adminBtn.classList.remove('active');
+                userBtn.classList.remove('active');
+                registerBtn.classList.add('active');
+            }
+        }
+    </script>
+</body>
+</html>

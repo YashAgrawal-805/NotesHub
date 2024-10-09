@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add User</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #000; /* Black background */
+            color: #fff; /* White text */
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .main-content {
+            margin-top: 5%;
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .container {
+            background: #1c1c1c; /* Dark background for container */
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            max-width: 600px;
+            width: 100%;
+            text-align: center;
+        }
+
+        h1 {
+            color: #fff;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #555;
+            background-color: #333;
+            color: #fff;
+            border-radius: 4px;
+            font-size: 16px;
+            width: 100%;
+            max-width: 500px;
+            box-sizing: border-box;
+        }
+
+        input::placeholder {
+            color: #fff;
+            opacity: 0.8;
+        }
+
+        .kick {
+            padding: 15px;
+            background-color: #ff9800; /* Orange background */
+            color: #000; /* Black text */
+            border: none;
+            border-radius: 4px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            width: 100%;
+            max-width: 500px;
+        }
+
+        .kick:hover {
+            background-color: #e68900;
+        }
+
+        /* Loader styles */
+        .loader {
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #ff9800;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            display: none;
+            margin: 20px auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .alert {
+            margin-top: 2%;
+            background-color: #d9711f; /* Orange background */
+            color: #000000; /* White text */
+            padding: 10px; /* Some padding inside the alert */
+            text-align: center; /* Center the text */
+            border-radius: 4px; /* Rounded corners */
+            font-size: 1rem; /* Adjust font size */
+            margin-bottom: 10px; /* Space below the alert */
+            max-width: 80%; /* Make the alert box take up 80% of the card's width */
+            margin: 0 auto 10px auto; /* Center the alert box */
+        }
+
+        /* Disable form interaction when submitting */
+        .disable-form * {
+            pointer-events: none;
+        }
+        footer{
+            margin-top: 10%;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <%- include('./partials/header1.ejs') %>
+    </header>
+    <% if (prompt && prompt.length > 0) { %>
+        <div class="alert"><%= prompt %></div>
+    <% } %>
+    <div class="main-content">
+        <div class="container">
+            <h1>Add New User</h1>
+            <form id="add-user-form" action="/admin/adduser" method="POST">
+                <input type="text" id="name" name="name" placeholder="Enter Name" required>
+                <input type="text" id="rollno" name="rollno" placeholder="Enter Roll No" required>
+                <input type="password" id="password" name="password" placeholder="Enter Password" required>
+                <button class="kick" type="submit">Add User</button>
+            </form>
+            <div class="loader" id="loader"></div>
+        </div>
+    </div>
+    <footer>
+        <%- include('./partials/footer.ejs') %>
+    </footer>
+    <script>
+        document.getElementById('add-user-form').addEventListener('submit', function(event) {
+            // Show the loader
+            document.getElementById('loader').style.display = 'block';
+
+            // Disable form interaction
+            document.querySelector('.container').classList.add('disable-form');
+        });
+    </script>
+</body>
+</html>

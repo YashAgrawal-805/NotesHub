@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responsive Footer</title>
+    <style>
+        .body {
+            width: 100%;
+        }
+        footer {
+            width: 100%;
+            background-color: #202020;
+            color: #fff;
+        }
+        .footer-container {
+            display: flex;
+            flex-wrap: nowrap; /* Ensure no wrapping */
+            justify-content: space-between; /* Spread out items */
+            max-width: 1200px;
+            margin: auto;
+            padding-inline: 20px;
+        }
+        .footer-section {
+            flex: 1;
+            padding: 0 10px;
+            min-width: 200px;
+            box-sizing: border-box;
+        }
+        h4 {
+            margin-bottom: 10px;
+        }
+        a {
+            color: #f58220;
+            text-decoration: none;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        p {
+            margin: 5px 0;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 850px) {
+            .footer-container {
+                flex-direction: column; /* Stack items vertically on smaller screens */
+                align-items: center; /* Center the content */
+            }
+            .footer-section {
+                text-align: center; /* Center text for each section */
+                margin-bottom: 20px; /* Add space between sections */
+            }
+        }
+    </style>
+</head>
+<body>
+    <footer>
+        <div class="footer-container">
+            <div class="footer-section">
+                <h4>Information</h4>
+                <ul>
+                    <li><a href="#">Sitemap</a></li>
+                    <li><a href="#">Terms & Conditions</a></li>
+                    <li><a href="#">Privacy Notice</a></li>
+                    <li><a href="#">DMCA</a></li>
+                    <li><a href="#">2257</a></li>
+                    <li><a href="#">EU DSA</a></li>
+                    <li><a href="#">Recommender System Guidelines</a></li>
+                    <li><a href="#">Cookie Notice</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h4>Work With Us</h4>
+                <ul>
+                    <li><a href="#">Content Partners</a></li>
+                    <li><a href="#">Advertise</a></li>
+                    <li><a href="#">Webmasters</a></li>
+                    <li><a href="#">Model Program</a></li>
+                    <li><a href="#">Press</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h4>Support and Help</h4>
+                <ul>
+                    <li><a href="#">Content Removal</a></li>
+                    <li><a href="#">Contact Support</a></li>
+                    <li><a href="#">FAQ</a></li>
+                    <li><a href="#">Trust and Safety</a></li>
+                    <li><a href="#">Parental Controls</a></li>
+                    <li><a href="#">Feedback</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h4>Discover</h4>
+                <ul>
+                    <li><a href="#">Blog</a></li>
+                    <li><a href="#">Insights Blog</a></li>
+                    <li><a href="#">Wellness Center</a></li>
+                    <li><a href="#">Mobile</a></li>
+                    <li><a href="#">Visually Impaired</a></li>
+                    <li><a href="#">Audio Impaired</a></li>
+                </ul>
+            </div>
+        </div>
+        <div style="text-align: center; margin-top: 20px; font-size: 14px;">
+            <p>© PDFScan, 2024. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>

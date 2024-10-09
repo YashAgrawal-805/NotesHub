@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notes for <%= proffesorName %></title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #000;
+            color: #fff;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            text-align: center;
+            color: #fff;
+            margin-top: 30px;
+            font-size: 2.5rem;
+        }
+
+        .note-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 30px auto;
+            padding: 0 20px;
+            max-width: 1200px;
+        }
+
+        .note {
+            background-color: #222;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+            transition: transform 0.2s ease-in-out;
+            max-width: 100%; 
+            word-wrap: break-word;
+        }
+
+        .note:hover {
+            transform: scale(1.03);
+        }
+
+        .note-header {
+            text-align: center;
+            font-size: 1.7rem;
+            font-weight: bold;
+            color: #f58220;
+            margin-bottom: 15px;
+        }
+
+        .note-links {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .note-links a {
+            width: 96%;
+            display: inline-block;
+            margin-bottom: 10px;
+            padding: 8px 12px;
+            background-color: transparent;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            border: 1px solid #d9711f;
+        }
+
+        .note-links a:hover {
+            color: #000;
+            background-color: #d9711f;
+        }
+
+        .favorite-button {
+            margin-top: 10px;
+            padding: 8px 12px;
+            background-color: #f58220;
+            color: white;
+            border-radius: 4px;
+            cursor: pointer;
+            border: none;
+            width: 100%;
+        }
+
+        .favorite-button:hover {
+            background-color: #d9711f;
+        }
+
+        .user-id {
+            margin-top: 10px;
+            color: #ccc;
+            font-size: 16px;
+        }
+
+        .alert {
+            background-color: #d9711f;
+            color: #000000;
+            padding: 10px;
+            text-align: center;
+            border-radius: 4px;
+            margin-bottom: 10px;
+            max-width: 80%;
+            margin: 0 auto 10px;
+        }
+
+        .note-actions {
+            display: flex;
+            justify-content: space-between;
+            margin: 10px 0;
+        }
+
+        .note-actions button {
+            padding: 8px 12px;
+            background-color: #f58220;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .note-actions button:hover {
+            background-color: #d9711f;
+        }
+
+        .comment-form textarea {
+            width: 80%;
+            padding: 10px;
+            border-radius: 4px;
+            border: none;
+            resize: none;
+            margin-bottom: 10px;
+            background-color: #333;
+            color: white;
+        }
+
+        .comment-form button {
+            padding: 8px 12px;
+            width: 100%;
+            background-color: #f58220;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .comment-form button:hover {
+            background-color: #d9711f;
+        }
+
+        /* Full-screen comment strip */
+        .comments-section {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8); /* Darken background */
+            backdrop-filter: blur(10px); /* Apply blur effect */
+            color: #fff;
+            z-index: 1000; /* Make sure it stays on top */
+            padding: 20px;
+            box-sizing: border-box;
+            overflow-y: auto; /* Allow scrolling if content is too large */
+        }
+
+        /* Comment strip content styling */
+        .comments-content {
+            max-width: 800px;
+            margin: 50px auto;
+            background-color: rgba(255, 255, 255, 0.1); /* Light transparent background */
+            padding: 20px;
+            border-radius: 8px;
+            position: relative;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Close button (X) for comment strip */
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: transparent;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .close-btn:hover {
+            color: #f58220;
+        }
+
+        .comment {
+            margin-bottom: 10px;
+            font-size: 1rem;
+            word-wrap: break-word;
+        }
+
+        select {
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 4px;
+            border: 1px solid #d9711f;
+            background-color: #333;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+
+        select:hover {
+            background-color: #444; /* Slightly darker on hover */
+            border-color: #f58220;
+        }
+
+        select:focus {
+            outline: none;
+            border-color: #f58220; /* Highlight border on focus */
+            box-shadow: 0 0 5px rgba(245, 130, 32, 0.5);
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            .note-container {
+                padding: 0 10px;
+            }
+        }
+
+        footer {
+            margin-top: 20%;
+        }
+
+        /* Style for "View Comments" button */
+        .view-comments-button {
+            width: 100%;
+            padding: 8px 12px;
+            background-color: #f58220;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .view-comments-button:hover {
+            background-color: #d9711f;
+        }
+    </style>
+
+</head>
+<body>
+    <header>
+        <%- include('./partials/header2.ejs') %>
+    </header>
+    
+    <h1>Select Notes</h1>
+
+    <div style="text-align: center; margin-bottom: 20px;">
+        <select id="filter-dropdown" onchange="filterNotes()">
+            <option value="all">All</option>
+            <option value="Notes">Notes</option>
+            <option value="PYQs and Solution">PYQs and Solution</option>
+            <option value="Assignment and Solution">Assignment and Solution</option>
+            <option value="Only Assignment">Only Assignment</option>
+            <option value="Books">Books</option>
+            <option value="Study Plan with video refrence">Study Plan with video refrence</option>
+        </select>
+    </div>
+
+    <div style="text-align: center; margin-bottom: 20px;">
+        <select id="sort-dropdown" onchange="sortNotes()">
+            <option value="noSort">No Sort</option>
+            <option value="updatedAt">Sort by Updated At</option>
+            <option value="mostLiked">Sort by Most Liked</option>
+            <option value="sortBoth">Sort by Both</option>
+        </select>
+    </div>
+
+    <div class="note-container" id="note-container">
+        <% notes.forEach(function(note) { %>
+            <div class="note" data-category="<%= note.name %>">
+                <% if (promt && promt.length > 0) { %>
+                    <div class="alert"><%= promt %></div>
+                <% } %>
+                
+                <div class="note-header"><%= note.name %></div>
+                <div class="note-links">
+                    <a href="<%= note.notesOpenLink %>" target="_blank">Open Notes</a>
+                    <a href="<%= note.notesDownLink %>" target="_blank">Download Notes</a>
+                </div>
+                
+                <form action="/user/addfavorite" method="POST" style="display:inline;">
+                    <input type="hidden" name="noteId" value="<%= note.notesId %>">
+                    <button type="submit" class="favorite-button">Add to Favorite</button>
+                </form>
+                
+                <div class="user-id"><%= note.userId %></div>
+                
+                <div class="note-timestamps">
+                    <p>Created at: <%= new Date(note.createdAt).toLocaleDateString() %></p>
+                    <p>Updated at: <%= new Date(note.updatedAt).toLocaleDateString() %></p>
+                </div>
+
+                <div class="note-actions">
+                    <form action="/user/notes/<%= note._id %>/like" method="POST">
+                        <button type="submit">Like (<%= note.likes.length %>)</button>
+                    </form>
+                    
+                    <form action="/user/notes/<%= note._id %>/dislike" method="POST">
+                        <button type="submit">Dislike (<%= note.dislikes.length %>)</button>
+                    </form>
+                </div>
+                
+                <form action="/user/notes/<%= note._id %>/comment" method="POST" class="comment-form">
+                    <textarea name="comment" rows="3" placeholder="Add a comment..." required></textarea>
+                    <button type="submit">Submit Comment</button>
+                </form>
+
+                <button onclick="toggleComments('<%= note._id %>')" class="view-comments-button">View Comments</button>
+                
+                <div class="comments-section" id="comments-<%= note._id %>">
+                    <div class="comments-content" >
+                        <button class="close-btn" onclick="removeCommentStrip('<%= note._id %>')">&times;</button>
+                        <h3>Comments</h3>
+                        <% note.comments.forEach(function(comment) { %>
+                            <strong class="rollno"><%= comment.rollno %>  </strong>  <div class="comment"><%= comment.comment %></div>
+                        <% }) %>
+                    </div>
+                </div>
+            </div>
+        <% }) %>
+    </div>
+
+    <footer>
+        <%- include('./partials/footer.ejs') %>
+    </footer>
+
+    <script>
+        // Function to toggle the visibility of comments
+        function toggleComments(noteId) {
+            var commentsSection = document.getElementById('comments-' + noteId);
+            commentsSection.style.display = 'block';
+        }
+
+        // Function to remove the comment strip when the close button is clicked
+        function removeCommentStrip(noteId) {
+            var commentsSection = document.getElementById('comments-' + noteId);
+            commentsSection.style.display = 'none';  // Hide the comments section
+        }
+
+        function filterNotes() {
+            var dropdown = document.getElementById('filter-dropdown');
+            var selectedValue = dropdown.value;
+            var notes = document.querySelectorAll('.note');
+
+            notes.forEach(function(note) {
+                if (selectedValue === 'all') {
+                    note.style.display = 'block';
+                } else {
+                    note.style.display = note.getAttribute('data-category') === selectedValue ? 'block' : 'none';
+                }
+            });
+        }
+
+        // Call filterNotes on page load to display all notes by default
+        filterNotes();
+
+        function sortNotes() {
+            var dropdown = document.getElementById('sort-dropdown');
+            var selectedValue = dropdown.value;
+            var notesContainer = document.getElementById('note-container');
+            var notes = Array.from(notesContainer.children);
+
+            notes.sort(function(a, b) {
+                if (selectedValue === 'noSort') {
+                    var dateA = new Date(a.querySelector('.note-timestamps p:nth-of-type(2)').textContent.split(': ')[1]);
+                    var dateB = new Date(b.querySelector('.note-timestamps p:nth-of-type(2)').textContent.split(': ')[1]);
+                    return dateA - dateB; // Sort descending
+                } else if (selectedValue === 'updatedAt') {
+                    // Compare by updatedAt date
+                    var dateA = new Date(a.querySelector('.note-timestamps p:nth-of-type(2)').textContent.split(': ')[1]);
+                    var dateB = new Date(b.querySelector('.note-timestamps p:nth-of-type(2)').textContent.split(': ')[1]);
+                    return dateB - dateA; // Sort descending
+                } else if (selectedValue === 'mostLiked') {
+                    // Compare by likes count
+                    var likesA = parseInt(a.querySelector('form[action*="/like"] button').textContent.match(/\d+/)[0]);
+                    var likesB = parseInt(b.querySelector('form[action*="/like"] button').textContent.match(/\d+/)[0]);
+                    return likesB - likesA; // Sort descending
+                } else if (selectedValue === 'sortBoth') {
+                    // Sort by both updatedAt and likes
+                    var dateA = new Date(a.querySelector('.note-timestamps p:nth-of-type(2)').textContent.split(': ')[1]);
+                    var dateB = new Date(b.querySelector('.note-timestamps p:nth-of-type(2)').textContent.split(': ')[1]);
+                    var likesA = parseInt(a.querySelector('form[action*="/like"] button').textContent.match(/\d+/)[0]);
+                    var likesB = parseInt(b.querySelector('form[action*="/like"] button').textContent.match(/\d+/)[0]);
+
+                    // First, sort by updatedAt, then by likes
+                    if (dateB - dateA !== 0) {
+                        return dateB - dateA; // Sort by updatedAt descending
+                    }
+                    return likesB - likesA; // Then sort by likes descending
+                }
+            });
+        
+            // Clear the container and re-append the sorted notes
+            notesContainer.innerHTML = '';
+            notes.forEach(function(note) {
+                notesContainer.appendChild(note);
+            });
+        }
+
+        // Call sortNotes on page load to display notes in the default order
+        sortNotes();
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #000; /* Set background to black */
+            color: #fff; /* Set text color to white */
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        header {
+            background-color: #202020;
+            padding: 10px 20px;
+            border-bottom: 1px solid #333;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .main-content {
+            margin-top: 5%;
+            margin-bottom: 20%;
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .container {
+            background: #1c1c1c; /* Dark background for the container */
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            max-width: 600px;
+            width: 100%;
+            text-align: center; /* Center all text */
+        }
+
+        h1 {
+            color: #fff; /* White text for the heading */
+            font-size: 24px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        input[type="file"],
+        select {
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #555; /* Dark border */
+            background-color: #333; /* Dark background */
+            color: #fff; /* White text */
+            border-radius: 4px;
+            font-size: 16px;
+            width: 100%;
+            max-width: 500px; /* Set a max width */
+            box-sizing: border-box;
+        }
+
+        button {
+            padding: 15px;
+            background-color: #ff9800; /* Orange background */
+            color: #000; /* Black text */
+            border: none;
+            border-radius: 4px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            width: 100%;
+            max-width: 500px; /* Set a max width */
+        }
+
+        button:hover {
+            background-color: #e68900; /* Darker orange on hover */
+        }
+
+        /* Loader styles */
+        .loader {
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #ff9800;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            display: none;
+            margin: 20px auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Disable form interaction when submitting */
+        .disable-form * {
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <%- include('./partials/header2.ejs') %>
+    </header>
+    <div class="main-content">
+        <div class="container">
+            <% if (prompt && prompt.length > 0) { %>
+                <div class="alert" style="background-color: #ff9800; color: black; padding: 10px; border-radius: 5px; text-align: center;">
+                    <%= prompt %>
+                </div>
+            <% } %>
+            <h1>Create Notes</h1>
+            <form id="product-form" action="/user/create" method="post" enctype="multipart/form-data">
+                <input type="file" name="image" placeholder="Choose an image" autocomplete="off" required>
+
+                <!-- Type dropdown -->
+                <select name="name" required>
+                    <option value="" disabled selected>Select Type</option>
+                    <option value="Notes">Notes</option>
+                    <option value="PYQs and Solution">PYQs and Solution</option>
+                    <option value="Assignment and Solution">Assignment and Solution</option>
+                    <option value="Only Assignment">Only Assignment</option>
+                    <option value="Books">Books</option>
+                    <option value="Study Plan with video refrence">Study Plan with video refrence</option>
+                </select>
+
+                <!-- Sem dropdown -->
+                <select name="sem" id="sem" required>
+                    <option value="" disabled selected>Select sem</option>
+                    <option value="1">1st Sem</option>
+                    <option value="2">2nd Sem</option>
+                    <option value="3">3rd Sem</option>
+                    <option value="4">4th Sem</option>
+                    <option value="5">5th Sem</option>
+                    <option value="6">6th Sem</option>
+                    <option value="7">7th Sem</option>
+                    <option value="8">8th Sem</option>
+                    <option value="9">9th Sem</option>
+                    <option value="10">10th Sem</option>
+                </select>
+
+                <!-- Branch dropdown -->
+                <select name="branch" id="branch" required>
+                    <option value="" disabled selected>Select Branch</option>
+                    <option value="CSE">Computer Science Engineering</option>
+                    <option value="ECE">Electronics and Communication Engineering</option>
+                    <option value="EIE">Electronics and Instrumentation Engineering</option>
+                    <option value="EEE">Electrical Engineering</option>
+                    <option value="ME">Mechanical Engineering</option>
+                </select>
+
+                <input type="text" name="subject" placeholder="Subject" autocomplete="off" required>
+                <input type="text" name="proffesorName" placeholder="Professor Name" autocomplete="off" required>
+                <input type="text" name="userId" placeholder="Rollno" autocomplete="off" required>
+                <button type="submit">Submit</button>
+            </form>
+            <div class="loader" id="loader"></div>
+        </div>
+    </div>
+    <footer>
+        <%- include('./partials/footer.ejs') %>
+    </footer>
+    <script>
+        document.getElementById('product-form').addEventListener('submit', function(event) {
+            // Show the loader
+            document.getElementById('loader').style.display = 'block';
+
+            // Disable form interaction
+            document.querySelector('.container').classList.add('disable-form');
+        });
+    </script>
+</body>
+</html>

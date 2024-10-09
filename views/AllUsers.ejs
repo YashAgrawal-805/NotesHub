@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Users</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #000; /* Black background */
+            color: #fff; /* White text */
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .main-content {
+            margin-top: 5%;
+            margin-bottom: 20%;
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            box-sizing: border-box;
+            width: 100%;
+        }
+
+        .container {
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            max-width: 800px;
+            width: 100%;
+        }
+
+        h1 {
+            color: #ff9800; /* Orange color for the title */
+            font-size: 24px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        /* Card Styles */
+        .card {
+            background-color: #1c1c1c;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 10px 0;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start; /* Align content to the start */
+            max-width: 100%; /* Full width for smaller screens */
+        }
+
+        .card h2 {
+            color: #ff9800; /* Orange color for the card title */
+            font-size: 2.5vw; /* Responsive font size */
+            margin: 0 0 10px 0;
+        }
+
+        .card p {
+            color: #fff; /* White color for paragraphs */
+            font-size: 2vw; /* Responsive font size */
+            margin: 5px 0;
+        }
+
+        ul {
+            padding-left: 20px;
+            list-style: none;
+            margin: 5px 0; /* Adjust margin for ul */
+        }
+
+        .list {
+            margin: 5px 0;
+            border-radius: 4px;
+            padding: 5px; /* Add padding for list items */
+            background-color: #333; /* Dark background for list items */
+            font-size: 1.5vw; /* Responsive font size for list items */
+        }
+
+        p.no-data {
+            color: #ff9800; /* Orange color for no data messages */
+            text-align: center;
+            font-size: 2vw; /* Responsive font size */
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 800px) {
+            /* Hide the table and display cards */
+            table {
+                display: none;
+            }
+
+            .cards-container {
+                display: flex;
+                flex-wrap: wrap; /* Allow wrapping for cards */
+                justify-content: center; /* Center cards */
+            }
+
+            .card {
+                flex: 1 1 45%; /* Cards take up to 45% of the width */
+                margin: 10px; /* Margin for spacing */
+            }
+
+            h1 {
+                font-size: 20px; /* Smaller title on small screens */
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 18px; /* Further reduce title size for very small screens */
+            }
+
+            .card {
+                flex: 1 1 90%; /* Cards take up to 90% of the width */
+                padding: 15px; /* Adjust padding for cards on very small screens */
+            }
+
+            .card h2 {
+                font-size: 4vw; /* Larger font size for card titles on small screens */
+            }
+
+            .card p {
+                font-size: 3vw; /* Larger font size for paragraphs on small screens */
+            }
+
+            .list {
+                font-size: 4vw; /* Larger font size for list items on small screens */
+            }
+
+            p.no-data {
+                font-size: 3vw; /* Larger font size for no data messages on small screens */
+            }
+        }
+        footer{
+            margin-top: 10%;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <%- include('./partials/header1.ejs') %>
+    </header>
+    <div class="main-content">
+        <div class="container">
+            <h1>All Users</h1>
+
+            <% if (users && users.length > 0) { %>
+                <div class="cards-container">
+                    <% users.forEach(user => { %>
+                        <div class="card">
+                            <h2><%= user.name %></h2>
+                            <p><strong>Roll Number:</strong> <%= user.rollno %></p>
+            
+                            <!-- Notes Added -->
+                            <p><strong>Notes Added:</strong></p>
+                            <% if (notesAddedMap[user._id] && notesAddedMap[user._id].length > 0) { %>
+                                <ul>
+                                    <% notesAddedMap[user._id].forEach(note => { %>
+                                        <li class="list">
+                                            <strong>Subject:</strong> <%= note.subject %><br/>
+                                            <a href="<%= note.notesOpenLink %>" target="_blank">Open Notes</a> | 
+                                            <a href="<%= note.notesDownLink %>" target="_blank">Download Notes</a>
+                                        </li>
+                                    <% }) %>
+                                </ul>
+                            <% } else { %>
+                                <p class="no-data">No notes added.</p>
+                            <% } %>
+            
+                            <!-- Notes Loved -->
+                            <p><strong>Notes Loved:</strong></p>
+                            <% if (notesLovedMap[user._id] && notesLovedMap[user._id].length > 0) { %>
+                                <ul>
+                                    <% notesLovedMap[user._id].forEach(note => { %>
+                                        <li class="list">
+                                            <strong>Subject:</strong> <%= note.subject %><br/>
+                                            <a href="<%= note.notesOpenLink %>" target="_blank">Open Notes</a> | 
+                                            <a href="<%= note.notesDownLink %>" target="_blank">Download Notes</a>
+                                        </li>
+                                    <% }) %>
+                                </ul>
+                            <% } else { %>
+                                <p class="no-data">No notes loved.</p>
+                            <% } %>
+                        </div>
+                    <% }) %>
+                </div>
+            <% } else { %>
+                <p class="no-data">No users found.</p>
+            <% } %>                    
+        </div>
+    </div>
+    <footer>
+        <%- include('./partials/footer.ejs') %>
+    </footer>
+</body>
+</html>

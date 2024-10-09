@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About User</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #000; /* Black background */
+            color: #fff; /* White text */
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            text-align: center;
+            color: #fff; /* White heading */
+            margin-top: 30px;
+            font-size: 2.5rem;
+        }
+
+        /* User Info */
+        .user-info {
+            text-align: center;
+            margin: 20px 0;
+            font-size: 1.2rem;
+        }
+
+        .user-info span {
+            font-weight: bold;
+            color: #f58220; /* Orange color for labels */
+        }
+
+        /* Notes Container */
+        .notes-container {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .section-title {
+            color: #f58220; /* Orange title */
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+
+        .note-box {
+            background-color: #222; /* Dark card background */
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+            transition: transform 0.2s ease-in-out;
+        }
+
+        .note-box:hover {
+            transform: scale(1.03); /* Slight zoom effect */
+        }
+
+        .note-box h2 {
+            font-size: 1.7rem;
+            color: #f58220; /* Orange title */
+            margin-bottom: 15px;
+        }
+
+        .note-info {
+            margin-bottom: 20px;
+            line-height: 1.7;
+        }
+
+        .note-info strong {
+            color: #f58220; /* Orange labels */
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .button {
+            padding: 10px 20px;
+            background-color: #000; /* Black button */
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            border: 1px solid #f58220; /* Orange border */
+            font-size: 1rem;
+            flex: 1;
+            margin-right: 10px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .button:last-child {
+            margin-right: 0;
+        }
+
+        .button.delete {
+            background-color: #dc3545; /* Red delete button */
+        }
+
+        .button:hover {
+            background-color: #f58220;
+            color: #000;
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            margin-top: 20px;
+            color: #f58220;
+            font-size: 1.3rem;
+        }
+
+        @media (max-width: 768px) {
+            .buttons {
+                flex-direction: column;
+            }
+
+            .button {
+                margin-right: 0;
+                margin-bottom: 10px;
+            }
+
+            .button:last-child {
+                margin-bottom: 0;
+            }
+        }
+        footer{
+            margin-top: 20%;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <%- include('./partials/header2.ejs') %>
+    </header>
+
+    <!-- User Information Section -->
+    <h1>About User</h1>
+    <div class="user-info">
+        <p><span>Name:</span> <%= user.name %></p>
+        <p><span>Roll Number:</span> <%= user.rollno %></p>
+    </div>
+
+    <!-- Notes Added Section -->
+    <div class="notes-container">
+        <h2 class="section-title">Notes Added</h2>
+        <% if (addedNotes.length > 0) { %>
+            <% addedNotes.forEach(note => { %>
+                <div class="note-box">
+                    <h2><%= note.name %> : <%= note.subject %></h2>
+                    <div class="note-info">
+                        <p><strong>Professor:</strong> <%= note.proffesorName %></p>
+                    </div>
+                    <div class="buttons">
+                        <!-- View Note Button -->
+                        <a href="<%= note.notesOpenLink %>" target="_blank" class="button">View Note</a>
+                        <!-- Download Note Button -->
+                        <a href="<%= note.notesDownLink %>" target="_blank" class="button">Download Note</a>
+                    </div>
+                </div>
+            <% }) %>
+        <% } else { %>
+            <p class="empty-state">No notes added yet.</p>
+        <% } %>
+    </div>
+
+    <!-- Notes Loved Section -->
+    <div class="notes-container">
+        <h2 class="section-title">Notes Loved</h2>
+        <% if (lovedNotes.length > 0) { %>
+            <% lovedNotes.forEach(note => { %>
+                <div class="note-box">
+                    <h2><%= note.name %> : <%= note.subject %></h2>
+                    <div class="note-info">
+                        <p><strong>Professor:</strong> <%= note.proffesorName %></p>
+                    </div>
+                    <div class="buttons">
+                        <!-- View Note Button -->
+                        <a href="<%= note.notesOpenLink %>" target="_blank" class="button">View Note</a>
+                        <!-- Download Note Button -->
+                        <a href="<%= note.notesDownLink %>" target="_blank" class="button">Download Note</a>
+                    </div>
+                </div>
+            <% }) %>
+        <% } else { %>
+            <p class="empty-state">No notes loved yet.</p>
+        <% } %>
+    </div>
+    <footer>
+        <%- include('./partials/footer.ejs') %>
+    </footer>
+</body>
+</html>

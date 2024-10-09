@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notes Hub</title>
+    <style>
+        body {
+            width: 100%;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #1a1a1a;
+        }
+
+        header {
+            background-color: #202020;
+            padding: 10px 20px;
+            border-bottom: 1px solid #333;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .left-section {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo1 {
+            font-size: 24px;
+            color: white;
+            font-weight: bold;
+        }
+
+        .logo2 {
+            font-size: 24px;
+            color: black;
+            font-weight: bold;
+            padding: 3px 6px;
+            border-radius: 5px;
+            background-color: orange;
+            margin-left: 1.5%;
+        }
+
+        nav ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+
+        nav ul li {
+            margin-right: 25px;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            font-weight: bold;
+            color: #f2f2f2;
+            font-size: 14px;
+        }
+
+        nav ul li a:hover {
+            color: orange;
+        }
+
+        .right-section {
+            display: flex;
+            align-items: center;
+        }
+
+        .profile-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background-color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #202020;
+            margin-left: 15px;
+        }
+
+        /* Hamburger menu for small screens */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+        }
+
+        .hamburger div {
+            width: 25px;
+            height: 3px;
+            background-color: white;
+            margin: 4px 0;
+        }
+
+        .black-screen {
+            position: fixed;
+            top: 0;
+            right: -300px;
+            width: 300px;
+            height: 100%;
+            background-color: rgb(0, 0, 0);
+            z-index: 1000;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            transition: right 0.8s ease, transform 0.8s ease;
+        }
+
+        .black-screen.active {
+            display: flex;
+            right: 0;
+            transform: translateX(0%);
+        }
+
+        .close-icon {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 28px;
+            cursor: pointer;
+        }
+
+        .black-screen a {
+            font-size: 24px;
+            text-decoration: none;
+            color: white;
+            margin: 20px 0;
+        }
+
+        .black-screen a:hover {
+            color: orange;
+        }
+
+        /* Responsive behavior */
+        @media (max-width: 1000px) {
+            nav ul {
+                display: none;
+            }
+
+            .hamburger {
+                display: flex;
+            }
+
+            .right-section .profile-icon {
+                display: none;
+            }
+        }
+
+        @media (min-width: 1001px) {
+            .black-screen {
+                display: none !important;
+            }
+
+            nav ul {
+                display: flex;
+            }
+
+            .right-section .profile-icon {
+                display: flex;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="left-section">
+            <div class="logo1">Notes</div>
+            <div class="logo2">hub</div>
+        </div>
+
+        <div class="right-section">
+            <nav>
+                <ul>
+                    <li><a href="/user/createnote">Create Note</a></li>
+                    <li><a href="/user/notes">Notes/Solutions</a></li>
+                    <li><a href="/user/about">About</a></li>
+                    <li><a href="/user/mynotes">MyNotes</a></li>
+                    <li><a href="/user/lovednotes">LovedNotes</a></li>
+                    <li><a href="/user/changepassword">Change Password</a></li>
+                    <li><a href="/user/logout">Logout</a></li>
+                </ul>
+            </nav>
+
+            <!-- Hamburger menu for small screens -->
+            <div class="hamburger" onclick="toggleMenu()">
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+
+            <!-- Profile icon visible for large screens -->
+            <div class="profile-icon">
+                <span>&#128100;</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Partial Black screen navigation for small screens -->
+    <div class="black-screen" id="black-screen">
+        <span class="close-icon" onclick="toggleMenu()">&#10006;</span>
+        <div class="profile-icon">
+            <span>&#128100;</span>
+        </div>
+        <a href="/user/createnote">Create Note</a>
+        <a href="/user/notes">Notes/Solutions</a>
+        <a href="/user/about">About</a>
+        <a href="/user/mynotes">MyNotes</a>
+        <a href="/user/lovednotes">LovedNotes</a>
+        <a href="/user/changepassword">Change Password</a>
+        <a href="/user/logout">Logout</a>
+    </div>
+
+    <script>
+        function toggleMenu() {
+            const blackScreen = document.getElementById('black-screen');
+            blackScreen.classList.toggle('active');
+        }
+    </script>
+</body>
+</html>
